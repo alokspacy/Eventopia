@@ -83,58 +83,79 @@ const sendBookingConfirmationEmail = inngest.createFunction(
   { event: "app/show.booked" },
   async ({ event, step }) => {
     const { bookingId } = event.data;
-    const booking = await Booking.findById(bookingId)
-      .populate({
-        path: "show",
-        populate: { path: "movie", model: "Movie" },
-      })
-      .populate("user");
 
-    const rawBooking = await Booking.findById(bookingId);
-    const userId = rawBooking?.user;
+    // Step 1: Fetch booking details from DB
+    const { booking, userId } = await step.run("fetch-booking-details", async () => {
+      const bookingData = await Booking.findById(bookingId)
+        .populate({
+          path: "show",
+          populate: { path: "movie", model: "Movie" },
+        })
+        .populate("user");
 
-    let userEmail = "";
-    let userName = "Valued Customer";
-
-    if (booking.user) {
-      userEmail = booking.user.email;
-      userName = booking.user.name;
-    } else if (userId) {
-      try {
-        const { clerkClient } = await import("@clerk/express");
-        const clerkUser = await clerkClient.users.getUser(userId);
-        userEmail = clerkUser.emailAddresses[0]?.emailAddress || "";
-        userName = (clerkUser.firstName || "") + " " + (clerkUser.lastName || "");
-      } catch (err) {
-        console.error("Failed to fetch user from Clerk in Inngest:", err);
-      }
-    }
-
-    if (!userEmail) {
-      console.error("No recipient email found for booking confirmation.");
-      return;
-    }
-
-    await sendEmail({
-      to: userEmail,
-      subject: `Payment Confirmation: "${booking.show.movie.title}" booked!`,
-      body: `<div style="font-family: Arial, sans-serif; line-height: 1.5;">
-        <h2>Hi ${userName},</h2>
-        <p>Your booking for <strong style="color: #F84565;">"${
-          booking.show.movie.title
-        }"</strong> is confirmed.</p>
-        <p>
-          <strong>Date:</strong> ${new Date(
-            booking.show.showDateTime
-          ).toLocaleDateString("en-US", { timeZone: "Africa/Kigali" })}<br />
-          <strong>Time:</strong> ${new Date(
-            booking.show.showDateTime
-          ).toLocaleTimeString("en-US", { timeZone: "Africa/Kigali" })}
-        </p>
-        <p>Enjoy the show! 🍿</p>
-        <p>Thanks for booking with us!<br />- Eventopia Team</P>
-      </div>`,
+      const rawBooking = await Booking.findById(bookingId);
+      return {
+        booking: bookingData,
+        userId: rawBooking?.user,
+      };
     });
+
+    if (!booking) {
+      console.error("Booking not found:", bookingId);
+      return { success: false, message: "Booking not found" };
+    }
+
+    // Step 2: Determine recipient email and name
+    const recipient = await step.run("get-recipient-info", async () => {
+      let email = "";
+      let name = "Valued Customer";
+
+      if (booking.user) {
+        email = booking.user.email;
+        name = booking.user.name;
+      } else if (userId) {
+        try {
+          const { clerkClient } = await import("@clerk/express");
+          const clerkUser = await clerkClient.users.getUser(userId);
+          email = clerkUser.emailAddresses[0]?.emailAddress || "";
+          name = (clerkUser.firstName || "") + " " + (clerkUser.lastName || "");
+        } catch (err) {
+          console.error("Failed to fetch user from Clerk in Inngest:", err);
+        }
+      }
+      return { email, name };
+    });
+
+    if (!recipient.email) {
+      console.error("No recipient email found for booking confirmation.");
+      return { success: false, message: "No recipient email found" };
+    }
+
+    // Step 3: Send confirmation email
+    await step.run("send-email", async () => {
+      await sendEmail({
+        to: recipient.email,
+        subject: `Payment Confirmation: "${booking.show.movie.title}" booked!`,
+        body: `<div style="font-family: Arial, sans-serif; line-height: 1.5;">
+          <h2>Hi ${recipient.name},</h2>
+          <p>Your booking for <strong style="color: #F84565;">"${
+            booking.show.movie.title
+          }"</strong> is confirmed.</p>
+          <p>
+            <strong>Date:</strong> ${new Date(
+              booking.show.showDateTime
+            ).toLocaleDateString("en-US", { timeZone: "Africa/Kigali" })}<br />
+            <strong>Time:</strong> ${new Date(
+              booking.show.showDateTime
+            ).toLocaleTimeString("en-US", { timeZone: "Africa/Kigali" })}
+          </p>
+          <p>Enjoy the show! 🍿</p>
+          <p>Thanks for booking with us!<br />- Eventopia Team</P>
+        </div>`,
+      });
+    });
+
+    return { success: true };
   }
 );
 
