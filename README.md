@@ -173,7 +173,7 @@ cd Eventopia
 ## 👥 Support & Contact
 - **Developer/Brand**: Alok Singh
 - **GitHub**: [alokspacy](https://github.com/alokspacy)
-- 
+  
 If you found this project useful, please consider giving it a star! ⭐
 
 Built with ❤️ using React, Express, MongoDB, and Inngest
