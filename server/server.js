@@ -29,10 +29,11 @@ app.use("/api/booking", bookingRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/user", userRouter);
 
-// Only listen locally (Vercel handles this in production)
-if (process.env.NODE_ENV !== "production") {
-  app.listen(port, () =>
-    console.log(`Server listening at http://localhost:${port}`)
+// Listen on port (Render requires listening on PORT, Vercel handles this automatically in serverless)
+if (!process.env.VERCEL) {
+  const listenPort = process.env.PORT || port;
+  app.listen(listenPort, () =>
+    console.log(`Server listening on port ${listenPort}`)
   );
 }
 
