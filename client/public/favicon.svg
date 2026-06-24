@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="fav-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF5A79" />
+      <stop offset="100%" stop-color="#d63854" />
+    </linearGradient>
+  </defs>
+  <!-- Ticket Icon matching the redesigned branding -->
+  <path d="M 4,4 
+           H 12 
+           A 4,4 0 0,0 20,4 
+           H 28 
+           V 12 
+           A 4,4 0 0,0 28,20 
+           V 28 
+           H 20 
+           A 4,4 0 0,0 12,28 
+           H 4 
+           V 20 
+           A 4,4 0 0,0 4,12 
+           Z" 
+        fill="url(#fav-grad)" />
+  <line x1="16" y1="7" x2="16" y2="25" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="1.5 2" opacity="0.8" />
+</svg>

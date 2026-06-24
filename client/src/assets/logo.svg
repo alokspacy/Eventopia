@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 70" width="280" height="70">
+  <defs>
+    <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF5A79" />
+      <stop offset="50%" stop-color="#F84565" />
+      <stop offset="100%" stop-color="#C71D3E" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <!-- Glowing Premium Ticket Icon -->
+  <g transform="translate(10, 15)">
+    <!-- Main Ticket Body with Ticket Arcs -->
+    <path d="M 5,5 
+             H 15 
+             A 6,6 0 0,0 27,5 
+             H 37 
+             V 15 
+             A 6,6 0 0,0 37,27 
+             V 37 
+             H 27 
+             A 6,6 0 0,0 15,37 
+             H 5 
+             V 27 
+             A 6,6 0 0,0 5,15 
+             Z" 
+          fill="url(#logo-grad)" 
+          filter="url(#glow)" />
+    <!-- Ticket Inner Border -->
+    <path d="M 8,8 
+             H 13 
+             M 29,8
+             H 34
+             V 13
+             M 34,29
+             V 34
+             H 29
+             M 13,34
+             H 8
+             V 29
+             M 8,13
+             V 8" 
+          stroke="#ffffff" 
+          stroke-width="1.5" 
+          fill="none" 
+          opacity="0.6" />
+    <!-- Ticket Punch Hole Line -->
+    <line x1="21" y1="9" x2="21" y2="33" stroke="#ffffff" stroke-width="2" stroke-dasharray="2 3" opacity="0.8" />
+  </g>
+  <!-- Text -->
+  <text x="65" y="46" font-family="'Outfit', 'Inter', sans-serif" font-size="32" font-weight="900" fill="#ffffff" letter-spacing="1">
+    Event<tspan fill="url(#logo-grad)">opia</tspan>
+  </text>
+</svg>

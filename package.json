@@ -1,0 +1,13 @@
+{
+  "name": "eventopia-root",
+  "version": "1.0.0",
+  "description": "Eventopia Movie Ticket Booking Platform Root",
+  "scripts": {
+    "install-all": "npm install --prefix client && npm install --prefix server",
+    "dev": "concurrently \"npm run dev --prefix client\" \"npm start --prefix server\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "vercel": "^54.15.1"
+  }
+}
