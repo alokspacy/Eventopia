@@ -77,11 +77,11 @@ The system leverages **Clerk** for user authentication, **MongoDB** for data per
 Eventopia
 ├── client             # React + Vite + Tailwind CSS v4 Frontend
 │   ├── src
-│   │   ├── components # Navbar, Footer, MovieCard, TrailerModal, etc.
-│   │   ├── context    # AppContext (global state, auth, axios)
-│   │   ├── pages      # Home, Movies, MovieDetails, SeatLayout, MyBookings, Favorite, Admin Panel
-│   │   └── lib        # Helper libraries (KConverter, dateFormat, timeFormat)
-│   └── vercel.json    # Vercel SPA router config
+│       ├── components # Navbar, Footer, MovieCard, TrailerModal, etc.
+│       ├── context    # AppContext (global state, auth, axios)
+│       ├── pages      # Home, Movies, MovieDetails, SeatLayout, MyBookings, Favorite, Admin Panel
+│       └── lib        # Helper libraries (KConverter, dateFormat, timeFormat)
+│   
 │
 └── server             # Node.js + Express.js Backend
     ├── configs        # DB connection, SMTP transporter (Brevo / Nodemailer)
@@ -173,9 +173,7 @@ cd Eventopia
 ## 👥 Support & Contact
 - **Developer/Brand**: Alok Singh
 - **GitHub**: [alokspacy](https://github.com/alokspacy)
-- **Contact Number**: +91 98754845XX
-- **Address**: Mumbai, India
-
+- 
 If you found this project useful, please consider giving it a star! ⭐
 
 Built with ❤️ using React, Express, MongoDB, and Inngest
