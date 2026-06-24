@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets";
-import { MenuIcon, SearchIcon, TicketPlus, XIcon } from "lucide-react";
+import { MenuIcon, SearchIcon, ShieldCheck, TicketPlus, XIcon } from "lucide-react";
 import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
 import { useAppContext } from "../context/AppContext";
 
@@ -12,7 +12,7 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const { favoriteMovies } = useAppContext();
+  const { favoriteMovies, isAdmin } = useAppContext();
 
   return (
     <div className="fixed top-0 left-0 z-50 w-full flex items-center justify-between px-6 md:px-16 lg:px-36 py-5">
@@ -97,6 +97,13 @@ const Navbar = () => {
         ) : (
           <UserButton>
             <UserButton.MenuItems>
+              {isAdmin && (
+                <UserButton.Action
+                  label="Admin Panel"
+                  labelIcon={<ShieldCheck width={15} />}
+                  onClick={() => navigate("/admin")}
+                />
+              )}
               <UserButton.Action
                 label="My Bookings"
                 labelIcon={<TicketPlus width={15} />}
