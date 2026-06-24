@@ -1,5 +1,5 @@
 import AdminNavbar from "../../components/admin/AdminNavbar";
-import AdminSidebar from "../../components/admin/AdminSidebar";
+import AdminSidebar from "../../components/admin/AdminSideBar";
 import { Outlet } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import { useEffect } from "react";
